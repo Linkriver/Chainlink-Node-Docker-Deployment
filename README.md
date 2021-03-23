@@ -45,3 +45,6 @@ docker run fiews/cl-eth-failover wss://cl-ropsten.fiews.io/v1/myApiKey ws://loca
 echo "DATABASE_URL=postgresql://$USERNAME:$PASSWORD@$SERVER:$PORT/$DATABASE
 DATABASE_TIMEOUT=0" >> ~/.chainlink/.env
 ```
+## TLS certificate for https scheme
+
+## initialize node and backup
