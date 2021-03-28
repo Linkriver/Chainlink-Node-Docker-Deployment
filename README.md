@@ -103,16 +103,36 @@ echo "<password>" >> .api
 echo "<my_wallet_password>" > .password
 ```
 ## initialize node and backup
+First of all you have to run your chainlinknode without a deamonflag and also you need to configure directly your api login and password. You need to define the latest image version on your command. You find the actual version here: https://hub.docker.com/r/smartcontract/chainlink/tags?page=1&ordering=last_updated
 
-This is the command to run your main node:
+First initialisation:
 ```bash
-cd ~/.chainlink-kovan && sudo docker run --name kovan-main --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:0.10.3 local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
+cd ~/.chainlink-kovan && sudo docker run --name kovan-main --network kovan -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n
+```
+After entering your password and your API credentials you can cancel the container (kills it automatically) and remove the container 
+```bash
+STRG + C
+```
+```bash
+docker rm kovan-main
+```
+Now you can run your full node command and initialise the it in deamonmode to ensure a permanent uptime.
+
+main command:
+```bash
+cd ~/.chainlink-kovan && sudo docker run --name kovan-main --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
 ```
  
- This is the command to run your backup node:
+backup node:
  ```bash
-cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:0.10.3 local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
+cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
  ```
+ - d flag = start the container in detached mode
+ - p flag =
+ - v flag =
+ - a flag =
+ - restart unless-stopped =
+ - name = 
  ## important commands ##
  list all containers
  ```bash
