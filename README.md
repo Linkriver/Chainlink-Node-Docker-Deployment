@@ -37,8 +37,11 @@ GAS_UPDATER_ENABLED=true
 ALLOW_ORIGINS=*" > ~/.chainlink/.env
 ````
 MIN_OUTGOING_CONFIRMATIONS and MIN_INCOMING_CONFIRMATIONS ist set to "0" to performe faster with your node an start a jobrun instantly when it appears on the blockchain.
+
 MINIMUM_CONTRACT_PAYMENT is set to 0.1 LINK, which is the usual payment.
+
 LINK_CONTRACT_ADDRESS is the chainlink token adress for the kovan network. Other chains and networks: https://docs.chain.link/docs/link-token-contracts
+
 LOG_LEVEL is debug to visualize every steps and synced blocks. You can change this parameter by time to "info" , that your node uses less storage
 ## ChainlinkEthFailover
 First you need to create a network, which is nessacery to combine your container with the Chainlinknode
