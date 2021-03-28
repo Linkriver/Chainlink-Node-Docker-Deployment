@@ -128,11 +128,11 @@ backup node:
 cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
  ```
  - d flag = start the container in detached mode
- - p flag =
- - v flag =
- - a flag =
- - restart unless-stopped =
- - name = 
+ - p flag = maps your containers port to the host machine
+ - v flag = mounts the current working directory into the container
+ - a flag = attach inside of the container
+ - restart unless-stopped = Restart policy to apply when a container exits
+ - name = give the container a name
  ## important commands ##
  list all containers
  ```bash
