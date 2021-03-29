@@ -133,6 +133,27 @@ cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --r
  - a flag = attach inside of the container
  - restart unless-stopped = Restart policy to apply when a container exits
  - name = give the container a name
+ ## security flags ##
+ Here is a list of other security flags to ensure full protection:
+ 1) Run images with "no new priviledges" to prevent privilege escalation
+ ```bash
+ --security-opt=no-new-privileges
+ ```
+2)
+ ```bash
+ --read-only
+ ```
+3)
+ ```bash
+ --pids-limit 100
+ ```
+4)
+ ```bash
+ --cpus=1.5
+ ```
+ ```bash
+ --memory=5g
+ ```
  ## important commands ##
  list all containers
  ```bash
