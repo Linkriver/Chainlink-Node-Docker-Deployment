@@ -51,8 +51,10 @@ Load the image to your instance:
 docker pull fiews/cl-eth-failover
 ```
 Run command of the eth proxy container:
+
+https://medium.com/fiews/chainlink-eth-node-failover-proxy-7d76cdea49f3
 ```bash
-docker run --name eth-failover fiews/cl-eth-failover wss://cl-ropsten.fiews.io/v1/myApiKey ws://localhost:8546/
+docker run --name eth-failover --restart unless-stopped --network kovan fiews/cl-eth-failover wss://cl-ropsten.fiews.io/v1/myApiKey ws://localhost:8546/
 ```
 You need to change the websocket-adresses to your Ethereum connection (nodes of a NaaS Provider or an own Eth Fullnode)
 ```bash
@@ -66,6 +68,7 @@ cd ~/.chainlink-kovan
 echo "DATABASE_URL=postgresql://$USERNAME:$PASSWORD@$SERVER:$PORT/$DATABASE
 DATABASE_TIMEOUT=0" >> ~/.chainlink-kovan/.env
 ```
+You need to change the credentials of your Postgres-access. Take a look here for the official chainlink documentation: https://docs.chain.link/docs/connecting-to-a-remote-database
 ## TLS certificate for https scheme
 First of all you need to create a hidden directory for your certificates.
 ```bash
@@ -124,12 +127,15 @@ backup node:
  ```bash
 cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
  ```
+ 
  - `-d` flag = start the container in detached mode
  - `-p` flag = maps your containers port to the host machine
  - `-v` flag = mounts the current working directory into the container
  - `-a` flag = attach inside of the container
  - `--restart unless-stopped` = Restart policy to apply when a container exits
  - `--name` = give the container a name
+ 
+ To ensure updates and configuration without downtime you need to kill and restart the main and the backup-node during full lock on the database: https://docs.chain.link/docs/performing-system-maintenance
  ## security flags ##
  Here is a list of other security flags to ensure full protection:
  1) Run images with "no new priviledges" to prevent privilege escalation
