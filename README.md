@@ -36,13 +36,10 @@ LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088
 GAS_UPDATER_ENABLED=true
 ALLOW_ORIGINS=*" > ~/.chainlink/.env
 ````
-MIN_OUTGOING_CONFIRMATIONS and MIN_INCOMING_CONFIRMATIONS ist set to "0" to performe faster with your node an start a jobrun instantly when it appears on the blockchain.
-
-MINIMUM_CONTRACT_PAYMENT is set to 0.1 LINK, which is the usual payment.
-
-LINK_CONTRACT_ADDRESS is the chainlink token adress for the kovan network. Other chains and networks: https://docs.chain.link/docs/link-token-contracts
-
-LOG_LEVEL is debug to visualize every steps and synced blocks. You can change this parameter by time to "info" , that your node uses less storage
+- `MIN_OUTGOING_CONFIRMATIONS` and `MIN_INCOMING_CONFIRMATIONS` ist set to `0` to performe faster with your node an start a jobrun instantly when it appears on the blockchain.
+- `MINIMUM_CONTRACT_PAYMENT` is set to 0.1 LINK, which is the usual payment.
+- `LINK_CONTRACT_ADDRESS` is the chainlink token adress for the kovan network. Other chains and networks: https://docs.chain.link/docs/link-token-contracts
+- `LOG_LEVEL` is `debug` to visualize every steps and synced blocks. You can change this parameter by time to "info" , that your node uses less storage
 ## ChainlinkEthFailover
 First you need to create a network, which is nessacery to combine your container with the Chainlinknode
 https://docs.docker.com/engine/tutorials/networkingcontainers/
@@ -92,7 +89,7 @@ TLS_KEY_PATH=/chainlink/.tls/server.key" >> ~/.chainlink-kovan/.env
 ```bash
 sed -i '/SECURE_COOKIES=false/d' ~/.chainlink-kovan/.env
 ```
-## set secret & api for GUI login and Wallet
+## set secret & api for GUI login and wallet
 ```bash
 mkdir ~/.chainlink-kovan/.psw
 cd ~/.chainlink-kovan/.psw
@@ -127,33 +124,32 @@ backup node:
  ```bash
 cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
  ```
- - d flag = start the container in detached mode
- - p flag = maps your containers port to the host machine
- - v flag = mounts the current working directory into the container
- - a flag = attach inside of the container
- - restart unless-stopped = Restart policy to apply when a container exits
- - name = give the container a name
+ - `-d` flag = start the container in detached mode
+ - `-p` flag = maps your containers port to the host machine
+ - `-v` flag = mounts the current working directory into the container
+ - `-a` flag = attach inside of the container
+ - `--restart unless-stopped` = Restart policy to apply when a container exits
+ - `--name` = give the container a name
  ## security flags ##
  Here is a list of other security flags to ensure full protection:
  1) Run images with "no new priviledges" to prevent privilege escalation
- ```bash
- --security-opt=no-new-privileges
- ```
-2)
- ```bash
- --read-only
- ```
-3)
- ```bash
- --pids-limit 100
- ```
-4)
- ```bash
- --cpus=1.5
- ```
- ```bash
- --memory=5g
- ```
+ 
+ `--security-opt=no-new-privileges`
+ 
+2) Restrict the container to read-only priviledge
+
+ `--read-only`
+ 
+3) Limit
+ 
+ `--pids-limit 100`
+
+4) CPU & Memory capacity 
+ 
+ `--cpus=1.5`
+
+ `--memory=5g`
+ 
  ## important commands ##
  list all containers
  ```bash
