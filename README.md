@@ -149,6 +149,8 @@ cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --r
 3) Limit
  
  `--pids-limit 100`
+ 
+ Attackers could launch a fork bomb with a single command inside the container. This fork bomb could crash the entire system and would require a restart of the host to make the system functional again. Using the PIDs cgroup parameter –pids-limit would prevent this kind of attack by restricting the number of forks that can happen inside a container within a specified time frame.
 
 4) CPU & Memory capacity 
  
