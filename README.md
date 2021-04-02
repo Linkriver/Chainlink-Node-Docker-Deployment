@@ -34,7 +34,7 @@ MIN_INCOMING_CONFIRMATIONS=0
 MINIMUM_CONTRACT_PAYMENT=100000000000000000
 LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088
 GAS_UPDATER_ENABLED=true
-ALLOW_ORIGINS=*" > ~/.chainlink/.env
+ALLOW_ORIGINS=*" > ~/.chainlink-kovan/.env
 ````
 - `MIN_OUTGOING_CONFIRMATIONS` and `MIN_INCOMING_CONFIRMATIONS` ist set to `0` to performe faster with your node an start a jobrun instantly when it appears on the blockchain.
 - `MINIMUM_CONTRACT_PAYMENT` is set to 0.1 LINK, which is the usual payment.
@@ -73,14 +73,11 @@ You need to change the credentials of your Postgres-access. Take a look here for
 First of all you need to create a hidden directory for your certificates.
 ```bash
 cd ~/.chainlink-kovan
-```
-```bash
 mkdir .tls
-cd .tls
 ```
 Create the TLS certificate with crt and key.
 ```bash
-openssl req -x509 -out  ~/.chainlink-kovan/.tls/server.crt  -keyout ~/.chainlink-kovan/.tls/server.key -newkey rsa:2048 -nodes -sha256 -days 365 -subj '/CN=localhost' -extensions EXT -config <( printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+cd ~/.chainlink-kovan/.tls && openssl req -x509 -out  ~/.chainlink-kovan/.tls/server.crt  -keyout ~/.chainlink-kovan/.tls/server.key -newkey rsa:2048 -nodes -sha256 -days 365 -subj '/CN=localhost' -extensions EXT -config <( printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
 
 Implement the certificate inside of your environmental:
@@ -103,12 +100,14 @@ echo "<password>" >> .api
 echo "<my_wallet_password>" > .password
 ```
 ## initialize node and backup
-First of all you have to run your chainlinknode without a deamonflag and also you need to configure directly your api login and password. You need to define the latest image version on your command. You find the actual version here: https://hub.docker.com/r/smartcontract/chainlink/tags?page=1&ordering=last_updated
+First of all you have to run your chainlinknode without a deamonflag and also you need to configure directly your api login and password.
 
 First initialisation:
 ```bash
 cd ~/.chainlink-kovan && sudo docker run --name kovan-main --network kovan -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n
 ```
+You need to define `<latest_image>` with the image you want to use, e.g. `0.10.3` Take a look here for the current images of the chainlink smartcontractkit: https://hub.docker.com/r/smartcontract/chainlink/tags
+
 After entering your password and your API credentials you can cancel the container (kills it automatically) and remove the container 
 ```bash
 STRG + C
