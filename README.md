@@ -4,7 +4,7 @@
 - PostgreSQL (database setup)
 - Applying security layers to your instance (2FA, SSH)
 - Blockchain connection (via a third-party service provider or running an own full node)
-## install docker
+## Install docker
 
 Install docker and create a user with the permission to create containers:
 
@@ -15,7 +15,7 @@ sudo usermod -aG docker $USER
 exit
 # log in again
 ```
-## create directory
+## Create directory
 The directory needs to be created as a hidden one in order to follow security best practices:
 
 ```bash
@@ -23,7 +23,7 @@ mkdir .chainlink-kovan
 cd .chainlink-kovan
 ```
 
-## create Environmental file (for Kovan testnet)
+## Create Environmental file (for Kovan testnet)
 List of all variables: https://docs.chain.link/docs/configuration-variables
 ```bash
 echo "ROOT=/chainlink
