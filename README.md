@@ -1,12 +1,12 @@
-# Linkriver-Chainlinknode-VM
-## requirements/ preconditions
-- Cloudsetup
-- PostgreSQL
-- Security Layers of your instance (2FA ssh ...)
-- Blockchain connection via third-party-provider or an own Fullnode
-## install Docker
+# Chainlink node single VM deployment
+## Preconditions
+- Cloud infrastructure setup
+- PostgreSQL (database setup)
+- Applying security layers to your instance (2FA, SSH)
+- Blockchain connection (via a third-party service provider or running an own full node)
+## install docker
 
-install docker and create a User with rules for creation of containers.
+install docker and create a user with the permission to create containers
 
 ```bash
 curl -sSL https://get.docker.com/ | sh
@@ -15,15 +15,15 @@ sudo usermod -aG docker $USER
 exit
 # log in again
 ```
-## create Directory
-The Directory needs to be created as a hidden for for BestSercurity Practices
+## create directory
+The directory needs to be created as a hidden one in order to follow security best practices
 
 ```bash
 mkdir .chainlink-kovan
 cd .chainlink-kovan
 ```
 
-## create Environmental Kovan
+## create Environmental file (for Kovan testnet)
 list of all variables: https://docs.chain.link/docs/configuration-variables
 ```bash
 echo "ROOT=/chainlink
@@ -36,10 +36,10 @@ LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088
 GAS_UPDATER_ENABLED=true
 ALLOW_ORIGINS=*" > ~/.chainlink-kovan/.env
 ````
-- `MIN_OUTGOING_CONFIRMATIONS` and `MIN_INCOMING_CONFIRMATIONS` ist set to `0` to performe faster with your node an start a jobrun instantly when it appears on the blockchain.
-- `MINIMUM_CONTRACT_PAYMENT` is set to 0.1 LINK, which is the usual payment.
-- `LINK_CONTRACT_ADDRESS` is the chainlink token adress for the kovan network. Other chains and networks: https://docs.chain.link/docs/link-token-contracts
-- `LOG_LEVEL` is `debug` to visualize every steps and synced blocks. You can change this parameter by time to "info" , that your node uses less storage
+- `MIN_OUTGOING_CONFIRMATIONS` and `MIN_INCOMING_CONFIRMATIONS` are set to `0` to perform faster on testnets. If you're node's jobs trigger transactions of real value you can adjust that value for higher security.
+- `MINIMUM_CONTRACT_PAYMENT` is set to `100000000000000000` (0.1 LINK), for on-chain verification on https://market.link it should be set to `1000000000000000` (0.001) or lower.
+- `LINK_CONTRACT_ADDRESS` is the chainlink token adress of the Kovan network. Other chains and networks: https://docs.chain.link/docs/link-token-contracts
+- `LOG_LEVEL` is `debug` to display every action and synced block. You can change this parameter to "info" in order to use less storage capacity
 ## ChainlinkEthFailover
 First you need to create a network, which is nessacery to combine your container with the Chainlinknode
 https://docs.docker.com/engine/tutorials/networkingcontainers/
