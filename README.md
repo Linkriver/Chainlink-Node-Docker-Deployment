@@ -90,7 +90,7 @@ TLS_KEY_PATH=/chainlink/.tls/server.key" >> ~/.chainlink-kovan/.env
 ```bash
 sed -i '/SECURE_COOKIES=false/d' ~/.chainlink-kovan/.env
 ```
-## set credentials for the API/web GUI and node wallets
+## Set credentials for the API/web GUI and node wallets
 ```bash
 mkdir ~/.chainlink-kovan/.psw
 cd ~/.chainlink-kovan/.psw
@@ -100,7 +100,7 @@ echo "<user@example.com>" > .api
 echo "<password>" >> .api
 echo "<my_wallet_password>" > .password
 ```
-## initialize node and backup
+## Initialize node and backup
 First of all you need to run your Chainlink node without a deamon flag and to configure your API login and password
 
 First initialisation:
@@ -118,12 +118,12 @@ docker rm kovan-main
 ```
 Now you can execute the entire command and initialise the node in deamon mode to ensure a permanent uptime
 
-command main:
+Command main:
 ```bash
 cd ~/.chainlink-kovan && sudo docker run --name kovan-main --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
 ```
  
-command backup:
+Command backup:
  ```bash
 cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --restart unless-stopped -d -p 6689:6689 -v ~/.chainlink-kovan:/chainlink -it --env-file=.env smartcontract/chainlink:<latest_image> local n -p /chainlink/.psw/.password -a /chainlink/.psw/.api 
  ```
@@ -158,7 +158,7 @@ cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --r
 
  `--memory=5g`
  
- ## important commands ##
+ ## Important commands ##
  list all containers
  ```bash
  docker ps
