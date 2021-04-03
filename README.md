@@ -1,4 +1,4 @@
-# Chainlink node single VM deployment
+# Chainlink node single VM docker deployment
 ## Preconditions
 - Cloud infrastructure setup
 - PostgreSQL (database setup)
