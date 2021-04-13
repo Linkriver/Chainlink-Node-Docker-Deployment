@@ -36,7 +36,7 @@ LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088
 GAS_UPDATER_ENABLED=true
 ALLOW_ORIGINS=*" > ~/.chainlink-kovan/.env
 ````
-- `MIN_OUTGOING_CONFIRMATIONS` and `MIN_INCOMING_CONFIRMATIONS` are set to `1` to perform faster on testnets. If you're node's jobs trigger transactions of real value or you're node sends multiple requets you can adjust that value for higher security.
+- `MIN_OUTGOING_CONFIRMATIONS` and `MIN_INCOMING_CONFIRMATIONS` are set to `1` to perform faster on testnets. If you're node's jobs trigger transactions of real value or your node sends multiple requests you can adjust that value for higher security. These parameters' values also depend on the network's block time and your blockchain client connection.
 - `MINIMUM_CONTRACT_PAYMENT` is set to `100000000000000000` (0.1 LINK), for on-chain verification on https://market.link it should be set to `1000000000000000` (0.001) or lower.
 - `LINK_CONTRACT_ADDRESS` is the chainlink token adress of the Kovan network. Other chains and networks: https://docs.chain.link/docs/link-token-contracts
 - `LOG_LEVEL` is `debug` to display every action and synced block. You can change this parameter to "info" in order to use less storage capacity
