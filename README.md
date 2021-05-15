@@ -1,4 +1,4 @@
-# Chainlink node single VM docker deployment
+# Chainlink node docker deployment
 ## Preconditions
 - Cloud infrastructure setup
 - PostgreSQL (database setup)
@@ -36,12 +36,13 @@ LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088
 GAS_UPDATER_ENABLED=true
 ALLOW_ORIGINS=*" > ~/.chainlink-kovan/.env
 ````
-- `MIN_OUTGOING_CONFIRMATIONS` and `MIN_INCOMING_CONFIRMATIONS` are set to `1` to perform faster on testnets. If your node's jobs trigger transactions of real value you might adjust that value for higher security. These parameters' values also depend on the network's block time and your blockchain client connection.
+- `MIN_OUTGOING_CONFIRMATIONS` and `MIN_INCOMING_CONFIRMATIONS` are set to `1` to settle jobs faster for testing purposes. If your node's jobs trigger real transactions you might adjust that value for higher security and to avoid incorrect results.
 - `MINIMUM_CONTRACT_PAYMENT` is set to `100000000000000000` (0.1 LINK), for on-chain verification on https://market.link it should be set to `1000000000000000` (0.001) or lower.
-- `LINK_CONTRACT_ADDRESS` is the chainlink token adress of the Kovan network. Other chains and networks: https://docs.chain.link/docs/link-token-contracts
+- `LINK_CONTRACT_ADDRESS` is the Chainlink token contract adress of the Kovan network. 
+Other chains and networks: https://docs.chain.link/docs/link-token-contracts
 - `LOG_LEVEL` is `debug` to display every action and synced block. You can change this parameter to "info" in order to use less storage capacity
 ## Chainlink ETH failover
-First you need to create a network, which is nessacery to connect your container to the Chainlink node:
+First you need to create a network, which is necessary to connect your container to the Chainlink node:
 https://docs.docker.com/engine/tutorials/networkingcontainers/
 ```bash 
 docker network create kovan
@@ -56,7 +57,7 @@ https://medium.com/fiews/chainlink-eth-node-failover-proxy-7d76cdea49f3
 ```bash
 docker run --name eth-failover --restart unless-stopped --network kovan fiews/cl-eth-failover wss://cl-ropsten.fiews.io/v1/myApiKey ws://localhost:8546/
 ```
-You need to change the websocket adresses of your Ethereum connection (nodes of a NaaS Provider or an own ETH full node):
+You need to adjust the websocket connection (blockchain client of a NaaS provider or your own ETH full node):
 ```bash
 echo "ETH_URL=ws://eth-failover:4000/" >> ~/.chainlink-kovan/.env
 ```
@@ -68,7 +69,7 @@ cd ~/.chainlink-kovan
 echo "DATABASE_URL=postgresql://$USERNAME:$PASSWORD@$SERVER:$PORT/$DATABASE
 DATABASE_TIMEOUT=0" >> ~/.chainlink-kovan/.env
 ```
-You need to change the credentials of your Postgres access. Have a look at the official Chainlink documentation: 
+You need to change the credentials of your PostgreSQL access. Have a look at the official Chainlink documentation: 
 https://docs.chain.link/docs/connecting-to-a-remote-database
 ## TLS certificate for https scheme
 Create a hidden directory for your certificates:
@@ -150,7 +151,7 @@ cd ~/.chainlink-kovan && sudo docker run --name kovan-backup --network kovan --r
  
  `--pids-limit 100`
  
- Attackers could launch a fork bomb with a single command inside the container. This fork bomb could crash the entire system and would require a restart of the host to make the system functional again. Using the PIDs cgroup parameter –pids-limit would prevent this kind of attack by restricting the number of forks that can happen inside a container within a specified time frame.
+ Attackers could launch a fork bomb with a single command inside the container. This fork bomb could kill the entire system and would require a restart of the host to make the system work again. Using the PIDs cgroup parameter –pids-limit would prevent this kind of attack by restricting the number of forks that can take place inside a container within a specified period of time.
 
 4) CPU & memory capacity 
  
